@@ -45,13 +45,11 @@ void PhysVehicle3D::Render()
 	offset = offset.rotate(q.getAxis(), q.getAngle());
 
 	//PRINCIPAL CHASSIS
-
 	chassis.transform.M[12] += offset.getX();
 	chassis.transform.M[13] += offset.getY();
 	chassis.transform.M[14] += offset.getZ();
 
-	// FRONT CHASSIS 
-
+	//FRONT CHASSIS 
 	Cube front_chassis(info.front_chassis.x, info.front_chassis.y, info.front_chassis.z);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&front_chassis.transform);
 	btVector3 front_chassis_offset(info.front_chassis_offset.x, info.front_chassis_offset.y, info.front_chassis_offset.z);
@@ -61,10 +59,81 @@ void PhysVehicle3D::Render()
 	front_chassis.transform.M[13] += front_chassis_offset.getY();
 	front_chassis.transform.M[14] += front_chassis_offset.getZ();
 
-	//front_chassis.color = Red;
+	//FRONT WHEEL BAR  
+	Cube front_wheel_bar(info.front_wheel_bar.x, info.front_wheel_bar.y, info.front_wheel_bar.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&front_wheel_bar.transform);
+	btVector3 front_wheel_bar_offset(info.front_wheel_bar_offset.x, info.front_wheel_bar_offset.y, info.front_wheel_bar_offset.z);
+	front_wheel_bar_offset = front_wheel_bar_offset.rotate(q.getAxis(), q.getAngle());
 
+	front_wheel_bar.transform.M[12] += front_wheel_bar_offset.getX();
+	front_wheel_bar.transform.M[13] += front_wheel_bar_offset.getY();
+	front_wheel_bar.transform.M[14] += front_wheel_bar_offset.getZ();
+
+	//BACK WHEEL BAR  
+	Cube back_wheel_bar(info.back_wheel_bar.x, info.back_wheel_bar.y, info.back_wheel_bar.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&back_wheel_bar.transform);
+	btVector3 back_wheel_bar_offset(info.back_wheel_bar_offset.x, info.back_wheel_bar_offset.y, info.back_wheel_bar_offset.z);
+	back_wheel_bar_offset = back_wheel_bar_offset.rotate(q.getAxis(), q.getAngle());
+
+	back_wheel_bar.transform.M[12] += back_wheel_bar_offset.getX();
+	back_wheel_bar.transform.M[13] += back_wheel_bar_offset.getY();
+	back_wheel_bar.transform.M[14] += back_wheel_bar_offset.getZ();
+
+	//SUSPENSION FRONT RIGHT
+	Cube suspension_front_right(info.suspension_front_right.x, info.suspension_front_right.y, info.suspension_front_right.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&suspension_front_right.transform);
+	btVector3 suspension_front_right_offset(info.suspension_front_right_offset.x, info.suspension_front_right_offset.y, info.suspension_front_right_offset.z);
+	suspension_front_right_offset = suspension_front_right_offset.rotate(q.getAxis(), q.getAngle());
+
+	suspension_front_right.transform.M[12] += suspension_front_right_offset.getX();
+	suspension_front_right.transform.M[13] += suspension_front_right_offset.getY();
+	suspension_front_right.transform.M[14] += suspension_front_right_offset.getZ();
+
+	//SUSPENSION FRONT LEFT
+	Cube suspension_front_left(info.suspension_front_left.x, info.suspension_front_left.y, info.suspension_front_left.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&suspension_front_left.transform);
+	btVector3 suspension_front_left_offset(info.suspension_front_left_offset.x, info.suspension_front_left_offset.y, info.suspension_front_left_offset.z);
+	suspension_front_left_offset = suspension_front_left_offset.rotate(q.getAxis(), q.getAngle());
+
+	suspension_front_left.transform.M[12] += suspension_front_left_offset.getX();
+	suspension_front_left.transform.M[13] += suspension_front_left_offset.getY();
+	suspension_front_left.transform.M[14] += suspension_front_left_offset.getZ();
+
+	//SUSPENSION BACK RIGHT
+	Cube suspension_back_right(info.suspension_back_right.x, info.suspension_back_right.y, info.suspension_back_right.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&suspension_back_right.transform);
+	btVector3 suspension_back_right_offset(info.suspension_back_right_offset.x, info.suspension_back_right_offset.y, info.suspension_back_right_offset.z);
+	suspension_back_right_offset = suspension_back_right_offset.rotate(q.getAxis(), q.getAngle());
+
+	suspension_back_right.transform.M[12] += suspension_back_right_offset.getX();
+	suspension_back_right.transform.M[13] += suspension_back_right_offset.getY();
+	suspension_back_right.transform.M[14] += suspension_back_right_offset.getZ();
+
+	//SUSPENSION BACK LEFT
+	Cube suspension_back_left(info.suspension_back_left.x, info.suspension_back_left.y, info.suspension_back_left.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&suspension_back_left.transform);
+	btVector3 suspension_back_left_offset(info.suspension_back_left_offset.x, info.suspension_back_left_offset.y, info.suspension_back_left_offset.z);
+	suspension_back_left_offset = suspension_back_left_offset.rotate(q.getAxis(), q.getAngle());
+
+	suspension_back_left.transform.M[12] += suspension_back_left_offset.getX();
+	suspension_back_left.transform.M[13] += suspension_back_left_offset.getY();
+	suspension_back_left.transform.M[14] += suspension_back_left_offset.getZ();
+
+	//COLORS
+	//front_chassis.color = Red; 
+	//front_wheel_bar.color = Red;
+	//suspension_front_right.color = Red; 
+	//suspension_front_left.color = Red; 
+
+	//RENDERS 
 	chassis.Render();
-	front_chassis.Render(); 
+	front_chassis.Render();
+	front_wheel_bar.Render(); 
+	back_wheel_bar.Render(); 
+	suspension_front_right.Render(); 
+	suspension_front_left.Render(); 
+	suspension_back_right.Render(); 
+	suspension_back_left.Render(); 
 }
 
 // ----------------------------------------------------------------------------
