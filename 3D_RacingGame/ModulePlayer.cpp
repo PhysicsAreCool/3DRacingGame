@@ -21,31 +21,43 @@ bool ModulePlayer::Start()
 	VehicleInfo car;
 
 	// Car properties ----------------------------------------
-	car.chassis_size.Set(3, 0.2, 5);
-	car.chassis_offset.Set(0, 1.5f, 0);
+	car.chassis_size.Set(3.0f, 0.2f, 5.0f);
+	car.chassis_offset.Set(0, 1.3f, 0);
 
-	car.front_chassis.Set(2.8, 0.6, 1.2);
-	car.front_chassis_offset.Set(0, 1.8, 1.8f);
+	car.front_chassis.Set(3.0f, 0.6f, 1.2f);
+	car.front_chassis_offset.Set(0, 1.6f, 1.8f);
 
-	car.front_wheel_bar.Set(3, 0.2f, 0.2f);
+	car.driver_chassis.Set(3.0f, 1.2f, 1.5f); 
+	car.driver_chassis_offset.Set(0, 2.0f, 0.5f);
+
+	car.back_chassis.Set(3.0f, 0.6f, 0.2f);
+	car.back_chassis_offset.Set(0, 1.6f, -2.4f); 
+
+	car.back_chassis_left.Set(0.2f, 0.6f, 2.2f); 
+	car.back_chassis_left_offset.Set(-1.4f, 1.6f, -1.2f);
+
+	car.back_chassis_right.Set(0.2f, 0.6f, 2.2f); 
+	car.back_chassis_right_offset.Set(1.4f, 1.6f, -1.2f);
+
+	car.front_wheel_bar.Set(3.0f, 0.2f, 0.2f);
 	car.front_wheel_bar_offset.Set(0, 0, 1.5f); 
 
 	car.back_wheel_bar.Set(3, 0.2f, 0.2f); 
 	car.back_wheel_bar_offset.Set(0, 0, -1.5f); 
 
-	car.suspension_front_right.Set(0.2, 1.5, 0.2);
-	car.suspension_front_right_offset.Set(0.4, 0.75, 1.5f); 
+	car.suspension_front_right.Set(0.2f, 1.3f, 0.2f);
+	car.suspension_front_right_offset.Set(0.4f, 0.75f, 1.5f); 
 
-	car.suspension_front_left.Set(0.2, 1.5, 0.2); 
-	car.suspension_front_left_offset.Set(-0.4, 0.75, 1.5);
+	car.suspension_front_left.Set(0.2f, 1.3f, 0.2f); 
+	car.suspension_front_left_offset.Set(-0.4f, 0.75f, 1.5f);
 
-	car.suspension_back_right.Set(0.2, 1.5, 0.2);
-	car.suspension_back_right_offset.Set(0.4, 0.75, -1.5f);
+	car.suspension_back_right.Set(0.2f, 1.3f, 0.2f);
+	car.suspension_back_right_offset.Set(0.4f, 0.75f, -1.5f);
 
-	car.suspension_back_left.Set(0.2, 1.5, 0.2);
-	car.suspension_back_left_offset.Set(-0.4, 0.75, -1.5f);
+	car.suspension_back_left.Set(0.2f, 1.3f, 0.2f);
+	car.suspension_back_left_offset.Set(-0.4f, 0.75f, -1.5f);
 
-	car.mass = 300.0f;
+	car.mass = 400.0f;
 	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;

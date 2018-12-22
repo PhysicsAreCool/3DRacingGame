@@ -59,6 +59,46 @@ void PhysVehicle3D::Render()
 	front_chassis.transform.M[13] += front_chassis_offset.getY();
 	front_chassis.transform.M[14] += front_chassis_offset.getZ();
 
+	//DRIVER CHASSIS 
+	Cube driver_chassis(info.driver_chassis.x, info.driver_chassis.y, info.driver_chassis.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&driver_chassis.transform);
+	btVector3 driver_chassis_offset(info.driver_chassis_offset.x, info.driver_chassis_offset.y, info.driver_chassis_offset.z);
+	driver_chassis_offset = driver_chassis_offset.rotate(q.getAxis(), q.getAngle());
+
+	driver_chassis.transform.M[12] += driver_chassis_offset.getX();
+	driver_chassis.transform.M[13] += driver_chassis_offset.getY();
+	driver_chassis.transform.M[14] += driver_chassis_offset.getZ();
+
+	//BACK CHASSIS 
+	Cube back_chassis(info.back_chassis.x, info.back_chassis.y, info.back_chassis.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&back_chassis.transform);
+	btVector3 back_chassis_offset(info.back_chassis_offset.x, info.back_chassis_offset.y, info.back_chassis_offset.z);
+	back_chassis_offset = back_chassis_offset.rotate(q.getAxis(), q.getAngle());
+
+	back_chassis.transform.M[12] += back_chassis_offset.getX();
+	back_chassis.transform.M[13] += back_chassis_offset.getY();
+	back_chassis.transform.M[14] += back_chassis_offset.getZ();
+
+	//BACK CHASSIS LEFT
+	Cube back_chassis_left(info.back_chassis_left.x, info.back_chassis_left.y, info.back_chassis_left.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&back_chassis_left.transform);
+	btVector3 back_chassis_left_offset(info.back_chassis_left_offset.x, info.back_chassis_left_offset.y, info.back_chassis_left_offset.z);
+	back_chassis_left_offset = back_chassis_left_offset.rotate(q.getAxis(), q.getAngle());
+
+	back_chassis_left.transform.M[12] += back_chassis_left_offset.getX();
+	back_chassis_left.transform.M[13] += back_chassis_left_offset.getY();
+	back_chassis_left.transform.M[14] += back_chassis_left_offset.getZ();
+
+	//BACK CHASSIS RIGHT
+	Cube back_chassis_right(info.back_chassis_right.x, info.back_chassis_right.y, info.back_chassis_right.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&back_chassis_right.transform);
+	btVector3 back_chassis_right_offset(info.back_chassis_right_offset.x, info.back_chassis_right_offset.y, info.back_chassis_right_offset.z);
+	back_chassis_right_offset = back_chassis_right_offset.rotate(q.getAxis(), q.getAngle());
+
+	back_chassis_right.transform.M[12] += back_chassis_right_offset.getX();
+	back_chassis_right.transform.M[13] += back_chassis_right_offset.getY();
+	back_chassis_right.transform.M[14] += back_chassis_right_offset.getZ();
+
 	//FRONT WHEEL BAR  
 	Cube front_wheel_bar(info.front_wheel_bar.x, info.front_wheel_bar.y, info.front_wheel_bar.z);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&front_wheel_bar.transform);
@@ -128,6 +168,10 @@ void PhysVehicle3D::Render()
 	//RENDERS 
 	chassis.Render();
 	front_chassis.Render();
+	driver_chassis.Render(); 
+	back_chassis.Render(); 
+	back_chassis_left.Render(); 
+	back_chassis_right.Render(); 
 	front_wheel_bar.Render(); 
 	back_wheel_bar.Render(); 
 	suspension_front_right.Render(); 

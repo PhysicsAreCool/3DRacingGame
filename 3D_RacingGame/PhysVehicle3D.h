@@ -30,6 +30,18 @@ struct VehicleInfo
 	vec3 front_chassis;
 	vec3 front_chassis_offset;
 
+	vec3 driver_chassis;
+	vec3 driver_chassis_offset; 
+
+	vec3 back_chassis; 
+	vec3 back_chassis_offset; 
+
+	vec3 back_chassis_left; 
+	vec3 back_chassis_left_offset; 
+
+	vec3 back_chassis_right; 
+	vec3 back_chassis_right_offset; 
+
 	vec3 front_wheel_bar;
 	vec3 front_wheel_bar_offset; 
 
