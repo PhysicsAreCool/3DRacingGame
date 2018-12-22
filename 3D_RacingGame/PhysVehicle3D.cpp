@@ -25,7 +25,7 @@ void PhysVehicle3D::Render()
 {
 	Cylinder wheel;
 
-	wheel.color = Blue;
+	wheel.color = Grey;
 
 	for(int i = 0; i < vehicle->getNumWheels(); ++i)
 	{
@@ -160,10 +160,18 @@ void PhysVehicle3D::Render()
 	suspension_back_left.transform.M[14] += suspension_back_left_offset.getZ();
 
 	//COLORS
-	//front_chassis.color = Red; 
-	//front_wheel_bar.color = Red;
-	//suspension_front_right.color = Red; 
-	//suspension_front_left.color = Red; 
+	chassis.color = Red; 
+	front_chassis.color = Orange;
+	driver_chassis.color = Orange; 
+	back_chassis.color = Orange;
+	back_chassis_left.color = Orange; 
+	back_chassis_right.color = Orange; 
+	front_wheel_bar.color = White;
+	suspension_front_right.color = White; 
+	suspension_front_left.color = White; 
+	back_wheel_bar.color = White; 
+	suspension_back_left.color = White; 
+	suspension_back_right.color = White; 
 
 	//RENDERS 
 	chassis.Render();
