@@ -57,7 +57,7 @@ bool ModulePlayer::Start()
 	car.suspension_back_left.Set(0.2f, 1.25f, 0.2f);
 	car.suspension_back_left_offset.Set(-0.4f, 0.75f, -1.5f);
 
-	car.mass = 500.0f;
+	car.mass = 400.0f;
 	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
@@ -131,7 +131,7 @@ bool ModulePlayer::Start()
 	car.wheels[3].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(0, 6, 10);
+	vehicle->SetPos(0, 4, 10);
 	
 	return true;
 }
@@ -174,6 +174,20 @@ update_status ModulePlayer::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
 		brake = BRAKE_POWER; 
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	{
+
+		vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+		mat4x4 InitialPos_mat = mat4x4(
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, -1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, -1.0f);
+
+		vehicle->SetTransform(InitialPos_mat.M);
+		vehicle->SetPos(0, 4, 10);
 	}
 
 	vehicle->ApplyEngineForce(acceleration);
