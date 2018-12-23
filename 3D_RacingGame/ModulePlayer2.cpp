@@ -1,27 +1,27 @@
 #include "Globals.h"
 #include "Application.h"
-#include "ModulePlayer.h"
+#include "ModulePlayer2.h"
 #include "Primitive.h"
 #include "PhysVehicle3D.h"
 #include "PhysBody3D.h"
 
-ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
+ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
 {
 	turn = acceleration = brake = 0.0f;
 }
 
-ModulePlayer::~ModulePlayer()
+ModulePlayer2::~ModulePlayer2()
 {}
 
 // Load assets
-bool ModulePlayer::Start()
+bool ModulePlayer2::Start()
 {
 	LOG("Loading player");
 
 	VehicleInfo car;
 
-	car.base_color = Orange;
-	car.car_color = Red; 
+	car.base_color = Green; 
+	car.car_color = Blue; 
 
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(3.0f, 0.2f, 5.0f);
@@ -30,28 +30,28 @@ bool ModulePlayer::Start()
 	car.front_chassis.Set(3.0f, 0.6f, 1.2f);
 	car.front_chassis_offset.Set(0, 1.7f, 1.85f);
 
-	car.driver_chassis.Set(3.0f, 1.5f, 1.5f); 
+	car.driver_chassis.Set(3.0f, 1.5f, 1.5f);
 	car.driver_chassis_offset.Set(0, 2.15f, 0.5f);
 
 	car.back_chassis.Set(3.0f, 0.6f, 0.2f);
-	car.back_chassis_offset.Set(0, 1.7f, -2.4f); 
+	car.back_chassis_offset.Set(0, 1.7f, -2.4f);
 
-	car.back_chassis_left.Set(0.2f, 0.6f, 2.2f); 
+	car.back_chassis_left.Set(0.2f, 0.6f, 2.2f);
 	car.back_chassis_left_offset.Set(-1.4f, 1.7f, -1.2f);
 
-	car.back_chassis_right.Set(0.2f, 0.6f, 2.2f); 
+	car.back_chassis_right.Set(0.2f, 0.6f, 2.2f);
 	car.back_chassis_right_offset.Set(1.4f, 1.7f, -1.2f);
 
 	car.front_wheel_bar.Set(3.0f, 0.2f, 0.2f);
-	car.front_wheel_bar_offset.Set(0, 0, 1.5f); 
+	car.front_wheel_bar_offset.Set(0, 0, 1.5f);
 
-	car.back_wheel_bar.Set(3, 0.2f, 0.2f); 
-	car.back_wheel_bar_offset.Set(0, 0, -1.5f); 
+	car.back_wheel_bar.Set(3, 0.2f, 0.2f);
+	car.back_wheel_bar_offset.Set(0, 0, -1.5f);
 
 	car.suspension_front_right.Set(0.2f, 1.25f, 0.2f);
-	car.suspension_front_right_offset.Set(0.4f, 0.75f, 1.5f); 
+	car.suspension_front_right_offset.Set(0.4f, 0.75f, 1.5f);
 
-	car.suspension_front_left.Set(0.2f, 1.25f, 0.2f); 
+	car.suspension_front_left.Set(0.2f, 1.25f, 0.2f);
 	car.suspension_front_left_offset.Set(-0.4f, 0.75f, 1.5f);
 
 	car.suspension_back_right.Set(0.2f, 1.25f, 0.2f);
@@ -78,10 +78,10 @@ bool ModulePlayer::Start()
 
 	float half_width = car.chassis_size.x*0.5f;
 	float half_length = car.chassis_size.z*0.5f;
-	
-	vec3 direction(0,-1,0);
-	vec3 axis(-1,0,0);
-	
+
+	vec3 direction(0, -1, 0);
+	vec3 axis(-1, 0, 0);
+
 	car.num_wheels = 4;
 	car.wheels = new Wheel[4];
 
@@ -134,13 +134,13 @@ bool ModulePlayer::Start()
 	car.wheels[3].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(0, 4, 10);
-	
+	vehicle->SetPos(0, 4, 20);
+
 	return true;
 }
 
 // Unload assets
-bool ModulePlayer::CleanUp()
+bool ModulePlayer2::CleanUp()
 {
 	LOG("Unloading player");
 
@@ -148,35 +148,35 @@ bool ModulePlayer::CleanUp()
 }
 
 // Update: draw background
-update_status ModulePlayer::Update(float dt)
+update_status ModulePlayer2::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		acceleration = MAX_ACCELERATION;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		if(turn < TURN_DEGREES)
-			turn +=  TURN_DEGREES;
+		if (turn < TURN_DEGREES)
+			turn += TURN_DEGREES;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		if(turn > -TURN_DEGREES)
+		if (turn > -TURN_DEGREES)
 			turn -= TURN_DEGREES;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		acceleration = -MAX_ACCELERATION;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
-		brake = BRAKE_POWER; 
+		brake = BRAKE_POWER;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
@@ -205,6 +205,3 @@ update_status ModulePlayer::Update(float dt)
 
 	return UPDATE_CONTINUE;
 }
-
-
-
