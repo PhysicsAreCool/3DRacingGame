@@ -3,6 +3,7 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
+#include "PhysVehicle3D.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -34,6 +35,8 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+	Player_Timer(timer.Read()); 
+
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
 	p.Render();
@@ -43,5 +46,47 @@ update_status ModuleSceneIntro::Update(float dt)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+}
+
+void ModuleSceneIntro::Player_Timer(int milisec)
+{
+
+	char title[100]; 
+
+	int sec = milisec / 1000.0f; //from milisecond to sec
+	int min = sec / 60.0f; //from seconds to minutes 
+	int hour = min / 60.0f; //from minutes to hours
+
+	int sec_print = sec;
+
+	if (min > 0)
+		sec_print -= min * 60;
+
+	if (hour >= 10 && min >= 10 && sec_print >= 10) {
+		sprintf_s(title, " Time: %i : %i : %i", hour, min, sec_print);
+	}
+	else if (hour < 10 && min >= 10 && sec_print >= 10) {
+		sprintf_s(title, " Time: 0%i : %i : %i", hour, min, sec_print);
+	}
+	else if (hour >= 10 && min < 10 && sec_print >= 10) {
+		sprintf_s(title, " Time: %i : 0%i : %i", hour, min, sec_print);
+	}
+	else if (hour >= 10 && min >= 10 && sec_print < 10) {
+		sprintf_s(title, " Time: %i : %i : 0%i", hour, min, sec_print);
+	}
+	else if (hour >= 10 && min < 10 && sec_print < 10) {
+		sprintf_s(title, " Time: %i : 0%i : 0%i", hour, min, sec_print);
+	}
+	else if (hour < 10 && min >= 10 && sec_print < 10) {
+		sprintf_s(title, " Time: 0%i : %i : 0%i", hour, min, sec_print);
+	}
+	else if (hour < 10 && min < 10 && sec_print >= 10) {
+		sprintf_s(title, " Time: 0%i : 0%i : %i", hour, min, sec_print);
+	}
+	else {
+		sprintf_s(title, " Time: 0%i : 0%i : 0%i", hour, min, sec_print);
+	}
+
+	App->window->SetTitle(title);
 }
 

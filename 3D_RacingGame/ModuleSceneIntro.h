@@ -3,6 +3,7 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
+#include "Timer.h"
 
 #define MAX_SNAKE 2
 
@@ -20,6 +21,7 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+	void Player_Timer(int milisec); 
 
 public:
 	/*
@@ -29,6 +31,8 @@ public:
 	PhysBody3D* pb_snake2[MAX_SNAKE];
 	Sphere s_snake2[MAX_SNAKE];
 	*/
+
+	Timer timer; 
 
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;

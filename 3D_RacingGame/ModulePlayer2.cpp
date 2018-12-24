@@ -143,7 +143,7 @@ bool ModulePlayer2::Start()
 bool ModulePlayer2::CleanUp()
 {
 	LOG("Unloading player");
-	vehicle->SetPos(10000, 0, 10000);
+	vehicle->SetPos(100, 0, 100);
 	App->physics->vehicles.clear();
 
 	return true;
@@ -183,7 +183,6 @@ update_status ModulePlayer2::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
-
 		vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		vehicle->vehicle->getRigidBody()->setAngularVelocity(btVector3(0, 0, 0));
 
@@ -197,26 +196,11 @@ update_status ModulePlayer2::Update(float dt)
 		vehicle->SetPos(0, 4, 10);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && App->player->change == true)
-	{
-		App->player->change = false; 
-
-		App->player->CleanUp();
-		App->player->enabled = false;
-
-		App->player2->enabled = true;
-		App->player2->Start();
-	}
-
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
 
 	vehicle->Render();
-
-	char title[80];
-	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
-	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
 }
