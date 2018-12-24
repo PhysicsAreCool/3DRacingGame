@@ -5,7 +5,7 @@ struct PhysBody3D;
 
 class Module
 {
-private :
+public:
 	bool enabled;
 
 public:

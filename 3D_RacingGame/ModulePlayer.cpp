@@ -143,6 +143,8 @@ bool ModulePlayer::Start()
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
+	vehicle->SetPos(10000, 0, 10000);
+	App->physics->vehicles.clear();
 
 	return true;
 }
@@ -183,6 +185,8 @@ update_status ModulePlayer::Update(float dt)
 	{
 
 		vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+		vehicle->vehicle->getRigidBody()->setAngularVelocity(btVector3(0, 0, 0)); 
+
 		mat4x4 InitialPos_mat = mat4x4(
 			1.0f, 0.0f, 0.0f, 0.0f,
 			0.0f, -1.0f, 0.0f, 0.0f,
@@ -191,6 +195,17 @@ update_status ModulePlayer::Update(float dt)
 
 		vehicle->SetTransform(InitialPos_mat.M);
 		vehicle->SetPos(0, 4, 10);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && change == false)
+	{
+		change = true; 
+
+		App->player2->CleanUp();
+		App->player2->enabled = false;
+
+		App->player->enabled = true;
+		App->player->Start();
 	}
 
 	vehicle->ApplyEngineForce(acceleration);

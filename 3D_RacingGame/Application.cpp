@@ -28,6 +28,8 @@ Application::Application()
 	AddModule(player);
 	AddModule(player2); 
 
+	player2->enabled = false; 
+
 	// Renderer last!
 	AddModule(renderer3D);
 }
@@ -50,9 +52,12 @@ bool Application::Init()
 	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();
 
-	while(item != NULL && ret == true)
+	while (item != NULL && ret == true)
 	{
-		ret = item->data->Init();
+		if (item->data->enabled)
+		{
+			ret = item->data->Init();
+		}
 		item = item->next;
 	}
 
@@ -60,12 +65,15 @@ bool Application::Init()
 	LOG("Application Start --------------");
 	item = list_modules.getFirst();
 
-	while(item != NULL && ret == true)
+	while (item != NULL && ret == true)
 	{
-		ret = item->data->Start();
+		if (item->data->enabled)
+		{
+			ret = item->data->Start();
+		}
 		item = item->next;
 	}
-	
+
 	ms_timer.Start();
 	return ret;
 }
@@ -90,25 +98,35 @@ update_status Application::Update()
 	
 	p2List_item<Module*>* item = list_modules.getFirst();
 	
-	while(item != NULL && ret == UPDATE_CONTINUE)
+	while (item != NULL && ret == UPDATE_CONTINUE)
 	{
-		ret = item->data->PreUpdate(dt);
+		if (item->data->enabled)
+		{
+			ret = item->data->PreUpdate(dt);
+		}
+		item = item->next;
+	}
+
+
+	item = list_modules.getFirst();
+
+	while (item != NULL && ret == UPDATE_CONTINUE)
+	{
+		if (item->data->enabled)
+		{
+			ret = item->data->Update(dt);
+		}
 		item = item->next;
 	}
 
 	item = list_modules.getFirst();
 
-	while(item != NULL && ret == UPDATE_CONTINUE)
+	while (item != NULL && ret == UPDATE_CONTINUE)
 	{
-		ret = item->data->Update(dt);
-		item = item->next;
-	}
-
-	item = list_modules.getFirst();
-
-	while(item != NULL && ret == UPDATE_CONTINUE)
-	{
-		ret = item->data->PostUpdate(dt);
+		if (item->data->enabled)
+		{
+			ret = item->data->PostUpdate(dt);
+		}
 		item = item->next;
 	}
 
