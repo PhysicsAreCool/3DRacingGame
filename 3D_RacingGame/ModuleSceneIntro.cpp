@@ -143,12 +143,11 @@ bool ModuleSceneIntro::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	//First sensor as a check point
-	Cube* Sensor1 = new Cube(10, 5, 1); 
-	Sensor1->SetPos(0, 1, 20);
+	Cube* Sensor1 = new Cube(1, 5, 60); 
+	Sensor1->SetPos(140, 1, 30);
 	Sensor1->color = White; 
 	cube_1 = Sensor1; 
 	
-
 	sens_1 = App->physics->AddBody(*cube_1, 0.0f);
 	sens_1->BodyToSensor(true); 
 	sens_1->collision_listeners.add(this); 
@@ -232,7 +231,6 @@ update_status ModuleSceneIntro::Update(float dt)
 	if (App->physics->debug)
 	{
 		cube_1->Render(); 
-		App->audio->PlayFx(motor_fx);
 	}
 
 	return UPDATE_CONTINUE;
@@ -240,7 +238,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	if (body1 == sens_1)
+	/*if (body1 == sens_1)
 	{
 		if (App->player->change)
 		{
@@ -252,7 +250,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 
 			App->player->change = false; 
 		}
-	}
+	}*/
 
 }
 
