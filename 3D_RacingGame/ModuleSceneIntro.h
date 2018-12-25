@@ -90,6 +90,11 @@ public:
 	
 
 	Timer timer; 
+	int TotalTime_p1 = 0; 
+	int TotalTime_p2 = 0; 
+	bool wins_p1 = true; 
+
+	bool game_ends = false; 
 
 	//Car
 	PhysBody3D* pb_chassis;

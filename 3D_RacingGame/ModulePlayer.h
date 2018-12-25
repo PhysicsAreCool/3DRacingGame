@@ -27,7 +27,7 @@ public:
 	float brake;
 
 	bool player1 = true;
-	bool TimeStarts = false; 
+	bool TimeStarts = false;
 
 	Stage actual_stage = Stage::first_stage;
 
