@@ -162,6 +162,7 @@ update_status ModulePlayer2::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
+		App->player->TimeStarts = true; 
 		acceleration = MAX_ACCELERATION;
 	}
 

@@ -27,6 +27,8 @@ public:
 	float brake;
 
 	bool player1 = true;
+	bool TimeStarts = false; 
+
 	Stage actual_stage = Stage::first_stage;
 
 	mat4x4 Stage1_mat = mat4x4(

@@ -267,6 +267,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 
 		App->player2->enabled = true;
 		App->player2->Start();
+		App->player->TimeStarts = false; 
 		App->player->player1 = false;
 	}
 
@@ -274,6 +275,9 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 
 void ModuleSceneIntro::Player_Timer(int milisec)
 {
+
+	if (App->player->TimeStarts == false)
+		timer.Start(); 
 
 	char title[100]; 
 
@@ -287,28 +291,28 @@ void ModuleSceneIntro::Player_Timer(int milisec)
 		sec_print -= min * 60;
 
 	if (hour >= 10 && min >= 10 && sec_print >= 10) {
-		sprintf_s(title, " Time: %i : %i : %i", hour, min, sec_print);
+		sprintf_s(title, " Monster Truck Obstacle Race | TIME: %i : %i : %i", hour, min, sec_print);
 	}
 	else if (hour < 10 && min >= 10 && sec_print >= 10) {
-		sprintf_s(title, " Time: 0%i : %i : %i", hour, min, sec_print);
+		sprintf_s(title, " Monster Truck Obstacle Race | TIME: 0%i : %i : %i", hour, min, sec_print);
 	}
 	else if (hour >= 10 && min < 10 && sec_print >= 10) {
-		sprintf_s(title, " Time: %i : 0%i : %i", hour, min, sec_print);
+		sprintf_s(title, " Monster Truck Obstacle Race | TIME: %i : 0%i : %i", hour, min, sec_print);
 	}
 	else if (hour >= 10 && min >= 10 && sec_print < 10) {
-		sprintf_s(title, " Time: %i : %i : 0%i", hour, min, sec_print);
+		sprintf_s(title, " Monster Truck Obstacle Race | TIME: %i : %i : 0%i", hour, min, sec_print);
 	}
 	else if (hour >= 10 && min < 10 && sec_print < 10) {
-		sprintf_s(title, " Time: %i : 0%i : 0%i", hour, min, sec_print);
+		sprintf_s(title, " Monster Truck Obstacle Race | TIME: %i : 0%i : 0%i", hour, min, sec_print);
 	}
 	else if (hour < 10 && min >= 10 && sec_print < 10) {
-		sprintf_s(title, " Time: 0%i : %i : 0%i", hour, min, sec_print);
+		sprintf_s(title, " Monster Truck Obstacle Race | TIME: 0%i : %i : 0%i", hour, min, sec_print);
 	}
 	else if (hour < 10 && min < 10 && sec_print >= 10) {
-		sprintf_s(title, " Time: 0%i : 0%i : %i", hour, min, sec_print);
+		sprintf_s(title, " Monster Truck Obstacle Race | TIME: 0%i : 0%i : %i", hour, min, sec_print);
 	}
 	else {
-		sprintf_s(title, " Time: 0%i : 0%i : 0%i", hour, min, sec_print);
+		sprintf_s(title, " Monster Truck Obstacle Race | TIME: 0%i : 0%i : 0%i", hour, min, sec_print);
 	}
 
 	App->window->SetTitle(title);
