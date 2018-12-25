@@ -60,7 +60,7 @@ bool ModulePlayer2::Start()
 	car.suspension_back_left.Set(0.2f, 1.25f, 0.2f);
 	car.suspension_back_left_offset.Set(-0.4f, 0.75f, -1.5f);
 
-	car.mass = 400.0f;
+	car.mass = 300.0f;
 	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
@@ -69,7 +69,7 @@ bool ModulePlayer2::Start()
 	car.maxSuspensionForce = 8000.0f;
 
 	// Wheel properties ---------------------------------------
-	float connection_height = 1.0f;
+	float connection_height = 1.20f;
 	float wheel_radius = 1.0f;
 	float wheel_width = 1.2f;
 	float suspensionRestLength = 1.2f;
@@ -137,7 +137,7 @@ bool ModulePlayer2::Start()
 		0.0f, 0.0f, -1.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 3.0f, 10.0f, 0.0f);
+		0.0f, 3.0f, 30.0f, 0.0f);
 
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetTransform(InitialPos_mat.M);
@@ -192,13 +192,15 @@ update_status ModulePlayer2::Update(float dt)
 		vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		vehicle->vehicle->getRigidBody()->setAngularVelocity(btVector3(0, 0, 0));
 
-		mat4x4 InitialPos_mat = mat4x4(
-			0.0f, 0.0f, -1.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 3.0f, 10.0f, 0.0f);
+		if (actual_stage == Stage::first_stage)
+		{
+			vehicle->SetTransform(App->player->Stage1_mat.M);
+		}
+		else if (actual_stage == Stage::second_stage)
+		{
+			vehicle->SetTransform(App->player->Stage2_mat.M);
+		}
 
-		vehicle->SetTransform(InitialPos_mat.M);
 	}
 
 	vehicle->ApplyEngineForce(acceleration);

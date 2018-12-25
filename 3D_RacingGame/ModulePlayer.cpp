@@ -137,7 +137,7 @@ bool ModulePlayer::Start()
 		0.0f, 0.0f, -1.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 3.0f, 10.0f, 0.0f);
+		0.0f, 3.0f, 30.0f, 0.0f);
 
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetTransform(InitialPos_mat.M); 
@@ -192,13 +192,15 @@ update_status ModulePlayer::Update(float dt)
 		vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		vehicle->vehicle->getRigidBody()->setAngularVelocity(btVector3(0, 0, 0));
 
-		mat4x4 InitialPos_mat = mat4x4(
-			0.0f, 0.0f, -1.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 3.0f, 10.0f, 0.0f);
-
-		vehicle->SetTransform(InitialPos_mat.M);
+		if (actual_stage == Stage::first_stage)
+		{
+			vehicle->SetTransform(Stage1_mat.M);
+		}
+		else if (actual_stage == Stage::second_stage)
+		{
+			vehicle->SetTransform(Stage2_mat.M); 
+		}
+		
 	}
 
 	vehicle->ApplyEngineForce(acceleration);

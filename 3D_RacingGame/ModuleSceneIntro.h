@@ -5,7 +5,6 @@
 #include "Primitive.h"
 #include "Timer.h"
 
-
 //Walls
 #define MAX_WALLS 30
 #define WALL_DISTANCE 60
@@ -30,6 +29,11 @@
 struct PhysBody3D;
 struct PhysMotor3D;
 
+enum class Stage
+{
+	first_stage, 
+	second_stage
+};
 
 class ModuleSceneIntro : public Module
 {
@@ -108,4 +112,7 @@ private:
 	//Adding sensors
 	PhysBody3D* sens_1; 
 	Cube* cube_1; 
+
+	PhysBody3D* sens_2; 
+	Cube* cube_2; 
 };

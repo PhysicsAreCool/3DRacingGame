@@ -25,4 +25,6 @@ public:
 	float turn;
 	float acceleration;
 	float brake;
+
+	Stage actual_stage = Stage::first_stage;
 };

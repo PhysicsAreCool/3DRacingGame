@@ -142,15 +142,25 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	//First sensor as a check point
-	Cube* Sensor1 = new Cube(1, 5, 60); 
-	Sensor1->SetPos(140, 1, 30);
+	//First sensor as a check point after cilinders (stage 1) 
+	Cube* Sensor1 = new Cube(1.0f, 5.0f, 50.0f);
+	Sensor1->SetPos(150.0f, 3.0f, 30.0f);
 	Sensor1->color = White; 
 	cube_1 = Sensor1; 
 	
 	sens_1 = App->physics->AddBody(*cube_1, 0.0f);
 	sens_1->BodyToSensor(true); 
 	sens_1->collision_listeners.add(this); 
+
+	//Second sensor after ball pendulums 
+	Cube* Sensor2 = new Cube(1.0f, 5.0f, 50.0f);
+	Sensor2->SetPos(400.0f, 3.0f, 30.0f);
+	Sensor2->color = White;
+	cube_2 = Sensor2;
+
+	sens_2 = App->physics->AddBody(*cube_2, 0.0f);
+	sens_2->BodyToSensor(true);
+	sens_2->collision_listeners.add(this);
 
 	return ret;
 }
@@ -231,6 +241,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	if (App->physics->debug)
 	{
 		cube_1->Render(); 
+		cube_2->Render(); 
 	}
 
 	return UPDATE_CONTINUE;
@@ -238,19 +249,26 @@ update_status ModuleSceneIntro::Update(float dt)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	/*if (body1 == sens_1)
+	if (body1 == sens_1)
 	{
-		if (App->player->change)
+		if (App->player->player1)
 		{
-			App->player->CleanUp();
-			App->player->enabled = false;
-
-			App->player2->enabled = true;
-			App->player2->Start();
-
-			App->player->change = false; 
+			App->player->actual_stage = Stage::second_stage;
 		}
-	}*/
+		else
+		{
+			App->player2->actual_stage = Stage::second_stage; 
+		}
+	}
+	else if (body1 == sens_2 && App->player->player1 == true)
+	{
+		App->player->CleanUp();
+		App->player->enabled = false;
+
+		App->player2->enabled = true;
+		App->player2->Start();
+		App->player->player1 = false;
+	}
 
 }
 
