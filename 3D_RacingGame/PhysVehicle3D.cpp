@@ -1,5 +1,6 @@
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
+#include "Module.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"
 
 // ----------------------------------------------------------------------------
@@ -160,12 +161,12 @@ void PhysVehicle3D::Render()
 	suspension_back_left.transform.M[14] += suspension_back_left_offset.getZ();
 
 	//COLORS
-	chassis.color = Red; 
-	front_chassis.color = Orange;
-	driver_chassis.color = Orange; 
-	back_chassis.color = Orange;
-	back_chassis_left.color = Orange; 
-	back_chassis_right.color = Orange; 
+	chassis.color = info.base_color; 
+	front_chassis.color = info.car_color;
+	driver_chassis.color = info.car_color;
+	back_chassis.color = info.car_color;
+	back_chassis_left.color = info.car_color;
+	back_chassis_right.color = info.car_color;
 	front_wheel_bar.color = White;
 	suspension_front_right.color = White; 
 	suspension_front_left.color = White; 

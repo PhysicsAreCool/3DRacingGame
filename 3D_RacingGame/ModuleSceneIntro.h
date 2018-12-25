@@ -3,6 +3,7 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
+#include "Timer.h"
 
 
 //Walls
@@ -44,6 +45,7 @@ public:
 	void RestartPendulum();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+	void Player_Timer(int milisec); 
 
 public:
 	//Cube to simulate a road
@@ -83,6 +85,8 @@ public:
 	Cylinder	pendulum3_primitive;
 	
 
+	Timer timer; 
+
 	//Car
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;
@@ -95,4 +99,13 @@ public:
 
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
+
+private:
+
+	//Adding Fx sounds
+	uint motor_fx; 
+
+	//Adding sensors
+	PhysBody3D* sens_1; 
+	Cube* cube_1; 
 };

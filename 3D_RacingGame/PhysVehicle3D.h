@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PhysBody3D.h"
+#include "Color.h"
 #include "glmath.h"
 
 class btRaycastVehicle;
@@ -60,6 +61,9 @@ struct VehicleInfo
 	vec3 suspension_back_left;
 	vec3 suspension_back_left_offset;
 
+	Color car_color; //Color to each car
+	Color base_color; //Chassis base color each car
+
 	float mass;
 	float suspensionStiffness; // default to 5.88 / 10.0 offroad / 50.0 sports car / 200.0 F1 car
 	float suspensionCompression; // default to 0.83
@@ -84,8 +88,9 @@ public:
 	void Brake(float force);
 	void Turn(float degrees);
 	float GetKmh() const;
-public:
 
+public:
+ 
 	VehicleInfo info;
 	btRaycastVehicle* vehicle;
 };
