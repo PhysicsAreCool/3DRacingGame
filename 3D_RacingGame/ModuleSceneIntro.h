@@ -48,8 +48,10 @@ public:
 
 private:
 
-	//Adding sensors
+	//Adding Fx sounds
+	uint motor_fx; 
 
+	//Adding sensors
 	PhysBody3D* sens_1; 
 	Cube* cube_1; 
 };

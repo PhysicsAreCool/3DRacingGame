@@ -25,6 +25,20 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
+	uint SetMusicVolume() const
+	{
+		return Mix_VolumeMusic(masterVolume * (musicVolume * MIX_MAX_VOLUME / 100) / 100);
+	}
+	uint SetFxVolume() const {
+		return Mix_Volume(-1, masterVolume * (sfxVolume * MIX_MAX_VOLUME / 100) / 100);
+	}
+
+public:
+
+	unsigned short masterVolume = 100;
+	unsigned short musicVolume = 30;
+	unsigned short sfxVolume = 30;
+
 private:
 
 	Mix_Music*			music;

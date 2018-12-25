@@ -18,9 +18,16 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
+	//Audio
+	App->audio->SetMusicVolume(); 
+	App->audio->SetFxVolume(); 
+
+	motor_fx = App->audio->LoadFx("audio/motor_fx.wav");
+
+	//App->audio->PlayMusic("audio/music.ogg"); 
+
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
-
 
 	//First sensor as a check point
 	Cube* Sensor1 = new Cube(10, 5, 1); 
@@ -53,10 +60,13 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
+	
+
 	//Render sensors 
 	if (App->physics->debug)
 	{
 		cube_1->Render(); 
+		App->audio->PlayFx(motor_fx);
 	}
 
 	return UPDATE_CONTINUE;
