@@ -143,7 +143,7 @@ bool ModulePlayer::Start()
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
-	//vehicle->SetPos(100, 0, 100);
+	vehicle->SetPos(100, 0, 100);
 	App->physics->vehicles.clear();
 
 	return true;

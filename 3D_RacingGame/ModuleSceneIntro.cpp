@@ -21,6 +21,18 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
+
+	//First sensor as a check point
+	Cube* Sensor1 = new Cube(10, 5, 1); 
+	Sensor1->SetPos(0, 1, 20);
+	Sensor1->color = White; 
+	cube_1 = Sensor1; 
+	
+
+	sens_1 = App->physics->AddBody(*cube_1, 0.0f);
+	sens_1->BodyToSensor(true); 
+	sens_1->collision_listeners.add(this); 
+
 	return ret;
 }
 
@@ -41,11 +53,31 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
+	//Render sensors 
+	if (App->physics->debug)
+	{
+		cube_1->Render(); 
+	}
+
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+	if (body1 == sens_1)
+	{
+		if (App->player->change)
+		{
+			App->player->CleanUp();
+			App->player->enabled = false;
+
+			App->player2->enabled = true;
+			App->player2->Start();
+
+			App->player->change = false; 
+		}
+	}
+
 }
 
 void ModuleSceneIntro::Player_Timer(int milisec)

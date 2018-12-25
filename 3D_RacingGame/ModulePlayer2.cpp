@@ -134,7 +134,7 @@ bool ModulePlayer2::Start()
 	car.wheels[3].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(0, 4, 20);
+	vehicle->SetPos(0, 4, 10);
 
 	return true;
 }
@@ -143,7 +143,7 @@ bool ModulePlayer2::Start()
 bool ModulePlayer2::CleanUp()
 {
 	LOG("Unloading player");
-	//vehicle->SetPos(100, 0, 100);
+	vehicle->SetPos(100, 0, 100);
 	App->physics->vehicles.clear();
 
 	return true;
