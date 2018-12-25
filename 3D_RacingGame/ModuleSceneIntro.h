@@ -4,17 +4,27 @@
 #include "Globals.h"
 #include "Primitive.h"
 
-#define MAX_SNAKE 2
+
 //Walls
 #define MAX_WALLS 30
 #define WALL_DISTANCE 60
+#define WALL_SIZE {30,5,3}
 
-//Columns (first obstacle stage)
+//Columns - first obstacle stage
 #define COLUMNS_PER_LINE 5
-#define COLUMNS 8
+#define COLUMNS_LINES 10
 #define COLUMS_DISTANCE 11
 
-//
+//RAMP - second obstacle
+#define RAMP_SIZE {10,1,20} 
+#define BALLS_NUMBER 9
+#define PENDULUM1_POSITION STAGE2_POSITION + 30
+#define PENDULUM2_POSITION PENDULUM1_POSITION + 60
+#define PENDULUM3_POSITION PENDULUM2_POSITION + 60
+
+//Stages positions
+#define STAGE1_POSITION 20
+#define STAGE2_POSITION COLUMNS_LINES*COLUMS_DISTANCE+50 + STAGE1_POSITION
 
 struct PhysBody3D;
 struct PhysMotor3D;
@@ -33,6 +43,8 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
+	//Cube to simulate a road
+	Cube road;
 
 	//Circuit walls
 	PhysBody3D* left_walls_bodies[MAX_WALLS];
@@ -41,9 +53,32 @@ public:
 	PhysBody3D* right_walls_bodies[MAX_WALLS];
 	Cube		right_walls_primitives[MAX_WALLS];
 	
-	//First obstacles stage
-	PhysBody3D* columns_bodies[COLUMNS][COLUMNS_PER_LINE];
-	Cylinder	columns_primitives[COLUMNS][COLUMNS_PER_LINE];
+	//COLUMNS - first obstacle
+	PhysBody3D* columns_bodies[COLUMNS_LINES][COLUMNS_PER_LINE];
+	Cylinder	columns_primitives[COLUMNS_LINES][COLUMNS_PER_LINE];
+
+	//PENDULUM - second obstacle
+	//PENDULUM 1
+	PhysBody3D* pendulum1_balls_bodies[BALLS_NUMBER];
+	Sphere		pendulum1_balls_primitives[BALLS_NUMBER];
+
+	PhysBody3D* pendulum1_body;
+	Cylinder	pendulum1_primitive;
+
+	//PENDULUM 2
+	PhysBody3D* pendulum2_balls_bodies[BALLS_NUMBER];
+	Sphere		pendulum2_balls_primitives[BALLS_NUMBER];
+
+	PhysBody3D* pendulum2_body;
+	Cylinder	pendulum2_primitive;
+
+	//PENDULUM 3
+	PhysBody3D* pendulum3_balls_bodies[BALLS_NUMBER];
+	Sphere		pendulum3_balls_primitives[BALLS_NUMBER];
+
+	PhysBody3D* pendulum3_body;
+	Cylinder	pendulum3_primitive;
+	
 
 	//Car
 	PhysBody3D* pb_chassis;

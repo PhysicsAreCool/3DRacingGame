@@ -66,6 +66,18 @@ bool ModulePhysics3D::Start()
 		world->addRigidBody(body);
 	}
 
+	//// Big plane as ground
+	//{
+	//	btCollisionShape* colShape = new btStaticPlaneShape(btVector3(0, 1, 1), -5);
+
+	//	btDefaultMotionState* myMotionState = new btDefaultMotionState();
+	//	btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, colShape);
+
+	//	btRigidBody* body = new btRigidBody(rbInfo);
+	//	world->addRigidBody(body);
+	//}
+	//
+
 	return true;
 }
 
