@@ -203,11 +203,22 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	//STAGE 2 - Spawn balls
 	
-
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		RestartPendulum();
 
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+}
+
+void ModuleSceneIntro::RestartPendulum()
+{
+	for (int i = 0; i < BALLS_NUMBER; ++i)
+	{
+		pendulum1_balls_bodies[i]->SetPos(PENDULUM1_POSITION + 500, 10, 6 * i + 6);
+		pendulum2_balls_bodies[i]->SetPos(PENDULUM2_POSITION + 600, 30, 6 * i + 6);
+		pendulum3_balls_bodies[i]->SetPos(PENDULUM3_POSITION + 70, 80, 6 * i + 6);
+	}
 }

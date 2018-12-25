@@ -40,6 +40,9 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	//Stage 2 - Pendulum
+	void RestartPendulum();
+
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
