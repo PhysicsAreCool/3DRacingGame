@@ -143,6 +143,8 @@ bool ModulePlayer2::Start()
 bool ModulePlayer2::CleanUp()
 {
 	LOG("Unloading player");
+	if (vehicle != nullptr)
+		vehicle->SetPos(0, 0, 0);
 	App->physics->vehicles.clear();
 	return true;
 }
@@ -195,7 +197,10 @@ update_status ModulePlayer2::Update(float dt)
 			{
 				vehicle->SetTransform(App->player->Stage2_mat.M);
 			}
-
+			else if (actual_stage == Stage::third_stage)
+			{
+				vehicle->SetTransform(App->player->Stage3_mat.M);
+			}
 		}
 	}
 

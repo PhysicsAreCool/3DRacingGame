@@ -431,6 +431,19 @@ update_status ModuleSceneIntro::Update(float dt)
 			wins_p1 = false;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN && game_ends)
+	{
+		App->player->CleanUp();
+		App->player2->CleanUp();
+		App->player->enabled = true; 
+		App->player2->enabled = false;	
+		App->player->player1 = true; 
+		App->player->TimeStarts = false;
+		App->player->Start();
+		App->audio->PlayMusic("audio/music.ogg");
+		game_ends = false;
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -535,28 +548,28 @@ void ModuleSceneIntro::Player_Timer(int milisec)
 		if (wins_p1)
 		{
 			if (hour >= 10 && min >= 10 && sec_print >= 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: %i : %i : %i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: %i : %i : %i | Press Q to play again", hour, min, sec_print);
 			}
 			else if (hour < 10 && min >= 10 && sec_print >= 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: 0%i : %i : %i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: 0%i : %i : %i | Press Q to play again", hour, min, sec_print);
 			}
 			else if (hour >= 10 && min < 10 && sec_print >= 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: %i : 0%i : %i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: %i : 0%i : %i | Press Q to play again", hour, min, sec_print);
 			}
 			else if (hour >= 10 && min >= 10 && sec_print < 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: %i : %i : 0%i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: %i : %i : 0%i | Press Q to play again", hour, min, sec_print);
 			}
 			else if (hour >= 10 && min < 10 && sec_print < 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: %i : 0%i : 0%i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: %i : 0%i : 0%i | Press Q to play again", hour, min, sec_print);
 			}
 			else if (hour < 10 && min >= 10 && sec_print < 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: 0%i : %i : 0%i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: 0%i : %i : 0%i | Press Q to play again", hour, min, sec_print);
 			}
 			else if (hour < 10 && min < 10 && sec_print >= 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: 0%i : 0%i : %i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: 0%i : 0%i : %i | Press Q to play again", hour, min, sec_print);
 			}
 			else {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: 0%i : 0%i : 0%i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 1 WINS!!! TIME: 0%i : 0%i : 0%i | Press Q to play again", hour, min, sec_print);
 			}
 
 			App->window->SetTitle(title);
@@ -564,28 +577,28 @@ void ModuleSceneIntro::Player_Timer(int milisec)
 		else
 		{
 			if (hour >= 10 && min >= 10 && sec_print >= 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: %i : %i : %i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: %i : %i : %i | Press Q to play again", hour, min, sec_print);
 			}
 			else if (hour < 10 && min >= 10 && sec_print >= 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: 0%i : %i : %i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: 0%i : %i : %i | Press Q to play again", hour, min, sec_print);
 			}
 			else if (hour >= 10 && min < 10 && sec_print >= 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: %i : 0%i : %i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: %i : 0%i : %i | Press Q to play again", hour, min, sec_print);
 			}
 			else if (hour >= 10 && min >= 10 && sec_print < 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: %i : %i : 0%i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: %i : %i : 0%i | Press Q to play again", hour, min, sec_print);
 			}
 			else if (hour >= 10 && min < 10 && sec_print < 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: %i : 0%i : 0%i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: %i : 0%i : 0%i | Press Q to play again", hour, min, sec_print);
 			}
 			else if (hour < 10 && min >= 10 && sec_print < 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: 0%i : %i : 0%i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: 0%i : %i : 0%i | Press Q to play again", hour, min, sec_print);
 			}
 			else if (hour < 10 && min < 10 && sec_print >= 10) {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: 0%i : 0%i : %i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: 0%i : 0%i : %i | Press Q to play again", hour, min, sec_print);
 			}
 			else {
-				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: 0%i : 0%i : 0%i", hour, min, sec_print);
+				sprintf_s(title, " Monster Truck Obstacle Race | PLAYER 2 WINS!!! TIME: 0%i : 0%i : 0%i | Press Q to play again", hour, min, sec_print);
 			}
 
 			App->window->SetTitle(title);
