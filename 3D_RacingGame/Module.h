@@ -6,7 +6,7 @@ struct PhysBody3D;
 class Module
 {
 public:
-	bool enabled;
+	bool enabled=true;
 
 public:
 	Application* App;

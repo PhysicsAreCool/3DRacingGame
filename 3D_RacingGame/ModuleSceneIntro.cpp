@@ -468,6 +468,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 				App->player2->actual_stage = Stage::second_stage;
 			}
 		}
+
 		else if (body1 == sens_2)
 		{
 			if (App->player->player1)
@@ -479,6 +480,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 				App->player2->actual_stage = Stage::third_stage;
 			}
 		}
+
 		else if (body1 == sens_3 && App->player->player1 == true)
 		{
 			TotalTime_p1 = timer.Read();
@@ -490,7 +492,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			App->player->TimeStarts = false;
 			App->player->player1 = false;
 		}
-		else
+		else if (body1 == sens_3 && App->player->player1 == false)
 		{
 			TotalTime_p2 = timer.Read();
 			timer.Stop();
