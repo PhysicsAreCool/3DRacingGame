@@ -133,14 +133,8 @@ bool ModulePlayer::Start()
 	car.wheels[3].brake = true;
 	car.wheels[3].steering = false;
 
-	mat4x4 InitialPos_mat = mat4x4(
-		0.0f, 0.0f, -1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 3.0f, 30.0f, 0.0f);
-
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetTransform(InitialPos_mat.M); 
+	vehicle->SetTransform(Stage1_mat.M); 
 
 	return true;
 }
@@ -149,7 +143,6 @@ bool ModulePlayer::Start()
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
-	vehicle->SetPos(10000, 0, 10000);
 	App->physics->vehicles.clear();
 
 	return true;
@@ -180,7 +173,7 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		acceleration = -MAX_ACCELERATION;
+		acceleration = -MAX_ACCELERATION/2;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
@@ -202,6 +195,15 @@ update_status ModulePlayer::Update(float dt)
 			vehicle->SetTransform(Stage2_mat.M); 
 		}
 		
+	}
+
+	if (acceleration < 1000)
+	{
+		App->audio->PlayFx(App->scene_intro->motor_fx); 
+	}
+	else
+	{
+		App->audio->PlayFx(App->scene_intro->engine_acc_fx); 
 	}
 
 	vehicle->ApplyEngineForce(acceleration);

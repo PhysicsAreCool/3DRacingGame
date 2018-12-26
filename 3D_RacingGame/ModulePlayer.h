@@ -5,9 +5,9 @@
 
 struct PhysVehicle3D;
 
-#define MAX_ACCELERATION 1000.0f
+#define MAX_ACCELERATION 2000.0f
 #define TURN_DEGREES 15.0f * DEGTORAD
-#define BRAKE_POWER 1000.0f
+#define BRAKE_POWER 2000.0f
 
 class ModulePlayer : public Module
 {
@@ -35,7 +35,7 @@ public:
 		0.0f, 0.0f, -1.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 3.0f, 30.0f, 0.0f);
+		0.0f, 1.5f, 30.0f, 0.0f);
 
 	mat4x4 Stage2_mat = mat4x4(
 		0.0f, 0.0f, -1.0f, 0.0f,

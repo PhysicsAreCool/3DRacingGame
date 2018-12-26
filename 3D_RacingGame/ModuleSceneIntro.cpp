@@ -18,8 +18,6 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	
-
 	//Build road
 	float road_lenght = 680;
 	road.size = {road_lenght,0.1,WALL_DISTANCE };
@@ -73,7 +71,7 @@ bool ModuleSceneIntro::Start()
 		for (int j = 0; j < COLUMNS_PER_LINE; ++j)
 		{
 			columns_primitives[i][j].radius = 3;				
-			columns_primitives[i][j].height = 5;
+			columns_primitives[i][j].height = 10;
 
 			//Position of the columns
 			if (i%2==0)
@@ -284,21 +282,20 @@ bool ModuleSceneIntro::Start()
 
 	}
 
-
 	//Audio
 	App->audio->SetMusicVolume(); 
 	App->audio->SetFxVolume(); 
 
-	motor_fx = App->audio->LoadFx("audio/motor_fx.wav");
-
-	//App->audio->PlayMusic("audio/music.ogg"); 
+	motor_fx = App->audio->LoadFx("audio/new_motor.wav");
+	engine_acc_fx = App->audio->LoadFx("audio/engine_acceleration.wav"); 
+	App->audio->PlayMusic("audio/music.ogg"); 
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	//First sensor as a check point after cilinders (stage 1) 
 	Cube* Sensor1 = new Cube(1.0f, 5.0f, 50.0f);
-	Sensor1->SetPos(150.0f, 3.0f, 30.0f);
+	Sensor1->SetPos(150.0f, 2.0f, 30.0f);
 	Sensor1->color = White; 
 	cube_1 = Sensor1; 
 	
@@ -308,7 +305,7 @@ bool ModuleSceneIntro::Start()
 
 	//Second sensor after ball pendulums 
 	Cube* Sensor2 = new Cube(1.0f, 5.0f, 50.0f);
-	Sensor2->SetPos(400.0f, 3.0f, 30.0f);
+	Sensor2->SetPos(430.0f, 2.0f, 30.0f);
 	Sensor2->color = White;
 	cube_2 = Sensor2;
 
@@ -406,8 +403,6 @@ update_status ModuleSceneIntro::Update(float dt)
 		snake4_primitives[i].Render();
 		snake5_primitives[i].Render();
 	}
-
-	
 
 	//Render sensors 
 	if (App->physics->debug)

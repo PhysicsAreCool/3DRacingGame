@@ -165,10 +165,11 @@ public:
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
 
-private:
-
 	//Adding Fx sounds
-	uint motor_fx; 
+	uint motor_fx;
+	uint engine_acc_fx; 
+
+private:
 
 	//Adding sensors
 	PhysBody3D* sens_1; 

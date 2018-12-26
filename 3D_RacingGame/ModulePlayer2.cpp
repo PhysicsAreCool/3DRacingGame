@@ -133,14 +133,8 @@ bool ModulePlayer2::Start()
 	car.wheels[3].brake = true;
 	car.wheels[3].steering = false;
 
-	mat4x4 InitialPos_mat = mat4x4(
-		0.0f, 0.0f, -1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 3.0f, 30.0f, 0.0f);
-
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetTransform(InitialPos_mat.M);
+	vehicle->SetTransform(App->player->Stage1_mat.M);
 
 	return true;
 }
@@ -149,7 +143,6 @@ bool ModulePlayer2::Start()
 bool ModulePlayer2::CleanUp()
 {
 	LOG("Unloading player");
-	vehicle->SetPos(100, 0, 100);
 	App->physics->vehicles.clear();
 
 	return true;
@@ -180,7 +173,7 @@ update_status ModulePlayer2::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		acceleration = -MAX_ACCELERATION;
+		acceleration = -MAX_ACCELERATION/2;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)

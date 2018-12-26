@@ -36,8 +36,8 @@ public:
 public:
 
 	unsigned short masterVolume = 100;
-	unsigned short musicVolume = 30;
-	unsigned short sfxVolume = 30;
+	unsigned short musicVolume = 20;
+	unsigned short sfxVolume = 15;
 
 private:
 
