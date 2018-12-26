@@ -144,7 +144,6 @@ bool ModulePlayer2::CleanUp()
 {
 	LOG("Unloading player");
 	App->physics->vehicles.clear();
-
 	return true;
 }
 
@@ -153,49 +152,62 @@ update_status ModulePlayer2::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	if (App->scene_intro->game_ends == false)
 	{
-		App->player->TimeStarts = true; 
-		acceleration = MAX_ACCELERATION;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-	{
-		if (turn < TURN_DEGREES)
-			turn += TURN_DEGREES;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		if (turn > -TURN_DEGREES)
-			turn -= TURN_DEGREES;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	{
-		acceleration = -MAX_ACCELERATION/2;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
-	{
-		brake = BRAKE_POWER;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
-	{
-		vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
-		vehicle->vehicle->getRigidBody()->setAngularVelocity(btVector3(0, 0, 0));
-
-		if (actual_stage == Stage::first_stage)
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		{
-			vehicle->SetTransform(App->player->Stage1_mat.M);
-		}
-		else if (actual_stage == Stage::second_stage)
-		{
-			vehicle->SetTransform(App->player->Stage2_mat.M);
+			App->player->TimeStarts = true;
+			acceleration = MAX_ACCELERATION;
 		}
 
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			if (turn < TURN_DEGREES)
+				turn += TURN_DEGREES;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			if (turn > -TURN_DEGREES)
+				turn -= TURN_DEGREES;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		{
+			acceleration = -MAX_ACCELERATION / 2;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+		{
+			brake = BRAKE_POWER;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+		{
+			vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+			vehicle->vehicle->getRigidBody()->setAngularVelocity(btVector3(0, 0, 0));
+
+			if (actual_stage == Stage::first_stage)
+			{
+				vehicle->SetTransform(App->player->Stage1_mat.M);
+			}
+			else if (actual_stage == Stage::second_stage)
+			{
+				vehicle->SetTransform(App->player->Stage2_mat.M);
+			}
+
+		}
 	}
+
+	if (acceleration < 1000)
+	{
+		App->audio->PlayFx(App->scene_intro->motor_fx);
+	}
+	else
+	{
+		App->audio->PlayFx(App->scene_intro->engine_acc_fx);
+	}
+
 
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);

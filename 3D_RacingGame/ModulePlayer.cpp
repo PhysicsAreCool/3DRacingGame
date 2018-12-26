@@ -143,6 +143,7 @@ bool ModulePlayer::Start()
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
+	vehicle->SetPos(0, 0, 0);
 	App->physics->vehicles.clear();
 
 	return true;
@@ -153,48 +154,56 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	if (App->scene_intro->game_ends == false)
 	{
-		TimeStarts = true; 
-		acceleration = MAX_ACCELERATION;
-	}
 
-	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-	{
-		if(turn < TURN_DEGREES)
-			turn +=  TURN_DEGREES;
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		if(turn > -TURN_DEGREES)
-			turn -= TURN_DEGREES;
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	{
-		acceleration = -MAX_ACCELERATION/2;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
-	{
-		brake = BRAKE_POWER; 
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
-	{
-		vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
-		vehicle->vehicle->getRigidBody()->setAngularVelocity(btVector3(0, 0, 0));
-
-		if (actual_stage == Stage::first_stage)
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		{
-			vehicle->SetTransform(Stage1_mat.M);
+			TimeStarts = true;
+			acceleration = MAX_ACCELERATION;
 		}
-		else if (actual_stage == Stage::second_stage)
+
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			vehicle->SetTransform(Stage2_mat.M); 
+			if (turn < TURN_DEGREES)
+				turn += TURN_DEGREES;
 		}
-		
+
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			if (turn > -TURN_DEGREES)
+				turn -= TURN_DEGREES;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		{
+			acceleration = -MAX_ACCELERATION / 2;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+		{
+			brake = BRAKE_POWER;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+		{
+			vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+			vehicle->vehicle->getRigidBody()->setAngularVelocity(btVector3(0, 0, 0));
+
+			if (actual_stage == Stage::first_stage)
+			{
+				vehicle->SetTransform(Stage1_mat.M);
+			}
+			else if (actual_stage == Stage::second_stage)
+			{
+				vehicle->SetTransform(Stage2_mat.M);
+			}
+			else if (actual_stage == Stage::third_stage)
+			{
+				vehicle->SetTransform(Stage3_mat.M);
+			}
+
+		}
 	}
 
 	if (acceleration < 1000)

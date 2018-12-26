@@ -39,7 +39,8 @@ struct PhysMotor3D;
 enum class Stage
 {
 	first_stage, 
-	second_stage
+	second_stage,
+	third_stage
 };
 
 class ModuleSceneIntro : public Module
@@ -177,4 +178,7 @@ private:
 
 	PhysBody3D* sens_2; 
 	Cube* cube_2; 
+
+	PhysBody3D* sens_3; 
+	Cube* cube_3; 
 };
