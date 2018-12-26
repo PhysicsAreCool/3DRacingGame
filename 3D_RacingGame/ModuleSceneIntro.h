@@ -7,7 +7,7 @@
 
 
 //Walls
-#define MAX_WALLS 30
+#define MAX_WALLS 23
 #define WALL_DISTANCE 60
 #define WALL_SIZE {30,5,3}
 
@@ -17,15 +17,22 @@
 #define COLUMS_DISTANCE 11
 
 //RAMP - second obstacle
-#define RAMP_SIZE {10,1,20} 
+#define	ACCELERATOR_SIZE {1,5,100}
 #define BALLS_NUMBER 9
 #define PENDULUM1_POSITION STAGE2_POSITION + 30
-#define PENDULUM2_POSITION PENDULUM1_POSITION + 60
-#define PENDULUM3_POSITION PENDULUM2_POSITION + 60
+#define PENDULUM2_POSITION PENDULUM1_POSITION + 50
+#define PENDULUM3_POSITION PENDULUM2_POSITION + 50
+#define PENDULUM4_POSITION PENDULUM3_POSITION + 50
+#define PENDULUM5_POSITION PENDULUM4_POSITION + 50
+
+//SNAKES - Third obstacle
+#define SNAKE_SIZE 4
+#define SNAKE_RADIUS 6 
 
 //Stages positions
 #define STAGE1_POSITION 20
 #define STAGE2_POSITION COLUMNS_LINES*COLUMS_DISTANCE+50 + STAGE1_POSITION
+#define STAGE3_POSITION PENDULUM5_POSITION + 50
 
 struct PhysBody3D;
 struct PhysMotor3D;
@@ -41,15 +48,20 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	//Stage 2 - Pendulum
-	void RestartPendulum();
-
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	void Player_Timer(int milisec); 
 
 public:
 	//Cube to simulate a road
 	Cube road;
+
+	//Cubes to limitate beggning and end
+
+	Cube front_wall_primitive;
+	PhysBody3D* front_wall_body;
+
+	Cube back_wall_primitive;
+	PhysBody3D* back_wall_body;
 
 	//Circuit walls
 	PhysBody3D* left_walls_bodies[MAX_WALLS];
@@ -70,6 +82,9 @@ public:
 	PhysBody3D* pendulum1_body;
 	Cylinder	pendulum1_primitive;
 
+	Cube	pendulum1_accelerator_primitive;
+	PhysBody3D* pendulum1_accelerator_body;
+
 	//PENDULUM 2
 	PhysBody3D* pendulum2_balls_bodies[BALLS_NUMBER];
 	Sphere		pendulum2_balls_primitives[BALLS_NUMBER];
@@ -77,13 +92,54 @@ public:
 	PhysBody3D* pendulum2_body;
 	Cylinder	pendulum2_primitive;
 
+	Cube		pendulum2_accelerator_primitive;
+	PhysBody3D* pendulum2_accelerator_body;
+
 	//PENDULUM 3
 	PhysBody3D* pendulum3_balls_bodies[BALLS_NUMBER];
 	Sphere		pendulum3_balls_primitives[BALLS_NUMBER];
 
 	PhysBody3D* pendulum3_body;
 	Cylinder	pendulum3_primitive;
+
+	Cube		pendulum3_accelerator_primitive;
+	PhysBody3D* pendulum3_accelerator_body;
+
+	//PENDULUM 4
+	PhysBody3D* pendulum4_balls_bodies[BALLS_NUMBER];
+	Sphere		pendulum4_balls_primitives[BALLS_NUMBER];
+
+	PhysBody3D* pendulum4_body;
+	Cylinder	pendulum4_primitive;
+
+	Cube		pendulum4_accelerator_primitive;
+	PhysBody3D* pendulum4_accelerator_body;
+
+	//PENDULUM 5
+	PhysBody3D* pendulum5_balls_bodies[BALLS_NUMBER];
+	Sphere		pendulum5_balls_primitives[BALLS_NUMBER];
+
+	PhysBody3D* pendulum5_body;
+	Cylinder	pendulum5_primitive;
 	
+	Cube		pendulum5_accelerator_primitive;
+	PhysBody3D* pendulum5_accelerator_body;
+
+	//SNAKES - Third obstacle
+	Sphere		snake1_primitives[SNAKE_SIZE];
+	PhysBody3D* snake1_bodies[SNAKE_SIZE];
+
+	Sphere		snake2_primitives[SNAKE_SIZE];
+	PhysBody3D* snake2_bodies[SNAKE_SIZE];
+
+	Sphere		snake3_primitives[SNAKE_SIZE];
+	PhysBody3D* snake3_bodies[SNAKE_SIZE];
+
+	Sphere		snake4_primitives[SNAKE_SIZE];
+	PhysBody3D* snake4_bodies[SNAKE_SIZE];
+
+	Sphere		snake5_primitives[SNAKE_SIZE];
+	PhysBody3D* snake5_bodies[SNAKE_SIZE];
 
 	Timer timer; 
 

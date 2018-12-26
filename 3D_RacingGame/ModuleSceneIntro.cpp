@@ -18,11 +18,13 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
+	
+
 	//Build road
-	float road_lenght = 1000;
+	float road_lenght = 680;
 	road.size = {road_lenght,0.1,WALL_DISTANCE };
-	road.SetPos(road_lenght/2,-1, WALL_DISTANCE / 2);
-	road.color = Color(0.50, 0.50, 0.50);
+	road.SetPos(road_lenght/2 - 10,-0.15, WALL_DISTANCE / 2);
+	road.color = Color(0.4, 0.4, 0.4);
 
 	//Build walls
 	for (int i = 0; i < MAX_WALLS; ++i)
@@ -50,6 +52,21 @@ bool ModuleSceneIntro::Start()
 		right_walls_bodies[i] = App->physics->AddBody(right_walls_primitives[i], 1000000);
 	}
 
+	back_wall_primitive.size = {58,6,6};
+	back_wall_primitive.color = Color(1,0,0);
+	back_wall_primitive.SetRotation(90,vec3(0,1,0));
+	
+	back_wall_body = App->physics->AddBody(back_wall_primitive,10000);
+	back_wall_body->SetPos(673, 3, 30);
+
+	front_wall_primitive.size = { 58,6,6 };
+	front_wall_primitive.color = Color(1, 0, 0);
+	front_wall_primitive.SetRotation(90, vec3(0, 1, 0));
+
+	front_wall_body = App->physics->AddBody(back_wall_primitive, 10000);
+	front_wall_body->SetPos(-10, 3, 30);
+
+	
 	//STAGE 1 - Build columns 
 	for (int i = 0; i <  COLUMNS_LINES; ++i)
 	{
@@ -72,65 +89,202 @@ bool ModuleSceneIntro::Start()
 
 			columns_primitives[i][j].SetRotation(90, {0,0,1});	
 
-			columns_bodies[i][j] = App->physics->AddBody(columns_primitives[i][j],0);
+			columns_bodies[i][j] = App->physics->AddBody(columns_primitives[i][j],100000);
 		}
 	}
 	
 	//STAGE 2 - First pendulum
 
+	//Pendulum
 	pendulum1_primitive.color = Color(1, 1, 1);
 	pendulum1_primitive.radius = 5;
 	pendulum1_primitive.height = 180;
-	pendulum1_primitive.SetPos(PENDULUM1_POSITION, 30, 0);
+	pendulum1_primitive.SetPos(PENDULUM1_POSITION, 20, 0);
 	pendulum1_primitive.SetRotation(90, vec3(0, 1, 0));
-	pendulum1_body = App->physics->AddBody(pendulum1_primitive, 0);
+	pendulum1_body = App->physics->AddBody(pendulum1_primitive, 0.0f); 
+
+	//Accelerator
+	pendulum1_accelerator_primitive.size = ACCELERATOR_SIZE;
+	pendulum1_accelerator_primitive.SetPos(PENDULUM1_POSITION,35,+50);
+	pendulum1_accelerator_body = App->physics->AddBody(pendulum1_accelerator_primitive,0);
+	pendulum1_accelerator_body->BodyToSensor(true);
+	pendulum1_accelerator_body->collision_listeners.add(App->scene_intro);
 
 	for (int i = 0; i < BALLS_NUMBER; ++i)
 	{
 		pendulum1_balls_primitives[i].radius = 3;
 		pendulum1_balls_primitives[i].color = Color(1,1,0);
-		pendulum1_balls_primitives[i].SetPos(PENDULUM1_POSITION + 200,5,6*i + 6);
-		pendulum1_balls_bodies[i] = App->physics->AddBody(pendulum1_balls_primitives[i],1000);
+		pendulum1_balls_primitives[i].SetPos(PENDULUM1_POSITION+10, 30, 6 * i + 6);
+		pendulum1_balls_bodies[i] = App->physics->AddBody(pendulum1_balls_primitives[i],10000);
+		pendulum1_balls_bodies[i]->collision_listeners.add(App->scene_intro);
 
-		App->physics->AddConstraintP2P(*pendulum1_body, *pendulum1_balls_bodies[i], vec3(-i*6 -6, 0, 0), vec3(0, 26, 0));
+		App->physics->AddConstraintP2P(*pendulum1_body, *pendulum1_balls_bodies[i], vec3(-i*6 -6, 0, 0), vec3(0, 16, 0));
 	}
 
 	//STAGE 2 - Second Pendulum
+	
+		pendulum2_primitive.color = Color(1, 0, 0);
+		pendulum2_primitive.radius = 5;
+		pendulum2_primitive.height = 180;
+		pendulum2_primitive.SetPos(PENDULUM2_POSITION, 20, 0);
+		pendulum2_primitive.SetRotation(90, vec3(0, 1, 0));
+		pendulum2_body = App->physics->AddBody(pendulum2_primitive, 0);
 
-	pendulum2_primitive.color = Color(1,0, 0);
-	pendulum2_primitive.radius = 5;
-	pendulum2_primitive.height = 180;
-	pendulum2_primitive.SetPos(PENDULUM2_POSITION, 30, 0);
-	pendulum2_primitive.SetRotation(90, vec3(0, 1, 0));
-	pendulum2_body = App->physics->AddBody(pendulum2_primitive, 0);
+		//Accelerator
+		pendulum2_accelerator_primitive.size = ACCELERATOR_SIZE;
+		pendulum2_accelerator_primitive.SetPos(PENDULUM2_POSITION, 35, +50);
+		pendulum2_accelerator_body = App->physics->AddBody(pendulum2_accelerator_primitive, 0);
+		pendulum2_accelerator_body->BodyToSensor(true);
+		pendulum2_accelerator_body->collision_listeners.add(App->scene_intro);
 
-	for (int i = 0; i < BALLS_NUMBER; ++i)
-	{
-		pendulum2_balls_primitives[i].radius = 3;
-		pendulum2_balls_primitives[i].color = Color(1, 1, 0);
-		pendulum2_balls_primitives[i].SetPos(PENDULUM2_POSITION + 200, 100, 6 * i + 6);
-		pendulum2_balls_bodies[i] = App->physics->AddBody(pendulum2_balls_primitives[i], 1000);
+		for (int i = 0; i < BALLS_NUMBER; ++i)
+		{
+			pendulum2_balls_primitives[i].radius = 3;
+			pendulum2_balls_primitives[i].color = Color(1, 1, 0);
+			pendulum2_balls_primitives[i].SetPos(PENDULUM2_POSITION - 10, 30, 6 * i + 6);
+			pendulum2_balls_bodies[i] = App->physics->AddBody(pendulum2_balls_primitives[i], 10000);
+			pendulum2_balls_bodies[i]->collision_listeners.add(App->scene_intro);
 
-		App->physics->AddConstraintP2P(*pendulum2_body, *pendulum2_balls_bodies[i], vec3(-i * 6 - 6, 0, 0), vec3(0, 26, 0));
-	}
-
-	//STAGE 3 - Third pendulum
+			App->physics->AddConstraintP2P(*pendulum2_body, *pendulum2_balls_bodies[i], vec3(-i * 6 - 6, 0, 0), vec3(0, 16, 0));
+		}
+	
+	//STAGE 2 - Third pendulum
 	pendulum3_primitive.color = Color(1,1,1);
 	pendulum3_primitive.radius = 5;
 	pendulum3_primitive.height = 180;
-	pendulum3_primitive.SetPos(PENDULUM3_POSITION, 30, 0);
+	pendulum3_primitive.SetPos(PENDULUM3_POSITION, 20, 0);
 	pendulum3_primitive.SetRotation(90, vec3(0, 1, 0));
 	pendulum3_body = App->physics->AddBody(pendulum3_primitive, 0);
+
+	//Accelerator
+	pendulum3_accelerator_primitive.size = ACCELERATOR_SIZE;
+	pendulum3_accelerator_primitive.SetPos(PENDULUM3_POSITION, 35, +50);
+	pendulum3_accelerator_body = App->physics->AddBody(pendulum3_accelerator_primitive, 0);
+	pendulum3_accelerator_body->BodyToSensor(true);
+	pendulum3_accelerator_body->collision_listeners.add(App->scene_intro);
 
 	for (int i = 0; i < BALLS_NUMBER; ++i)
 	{
 		pendulum3_balls_primitives[i].radius = 3;
 		pendulum3_balls_primitives[i].color = Color(1, 1, 0);
-		pendulum3_balls_primitives[i].SetPos(PENDULUM3_POSITION + 600, 100, 6 * i + 6);
-		pendulum3_balls_bodies[i] = App->physics->AddBody(pendulum3_balls_primitives[i], 1000);
+		pendulum3_balls_primitives[i].SetPos(PENDULUM3_POSITION + 10, 30, 6 * i + 6);
+		pendulum3_balls_bodies[i] = App->physics->AddBody(pendulum3_balls_primitives[i], 10000);
+		pendulum3_balls_bodies[i]->collision_listeners.add(App->scene_intro);
 
-		App->physics->AddConstraintP2P(*pendulum3_body, *pendulum3_balls_bodies[i], vec3(-i * 6 - 6, 0, 0), vec3(0, 26, 0));
+		App->physics->AddConstraintP2P(*pendulum3_body, *pendulum3_balls_bodies[i], vec3(-i * 6 - 6, 0, 0), vec3(0, 16, 0));
 	}
+
+	//STAGE 2 - Fourth pendulum
+	pendulum4_primitive.color = Color(1, 0, 0);
+	pendulum4_primitive.radius = 5;
+	pendulum4_primitive.height = 180;
+	pendulum4_primitive.SetPos(PENDULUM4_POSITION, 20, 0);
+	pendulum4_primitive.SetRotation(90, vec3(0, 1, 0));
+	pendulum4_body = App->physics->AddBody(pendulum4_primitive, 0);
+
+	//Accelerator
+	pendulum4_accelerator_primitive.size = ACCELERATOR_SIZE;
+	pendulum4_accelerator_primitive.SetPos(PENDULUM4_POSITION, 35, +50);
+	pendulum4_accelerator_body = App->physics->AddBody(pendulum4_accelerator_primitive, 0);
+	pendulum4_accelerator_body->BodyToSensor(true);
+	pendulum4_accelerator_body->collision_listeners.add(App->scene_intro);
+
+	for (int i = 0; i < BALLS_NUMBER; ++i)
+	{
+		pendulum4_balls_primitives[i].radius = 3;
+		pendulum4_balls_primitives[i].color = Color(1, 1, 0);
+		pendulum4_balls_primitives[i].SetPos(PENDULUM4_POSITION - 10, 30, 6 * i + 6);
+		pendulum4_balls_bodies[i] = App->physics->AddBody(pendulum4_balls_primitives[i], 10000);
+		pendulum4_balls_bodies[i]->collision_listeners.add(App->scene_intro);
+
+		App->physics->AddConstraintP2P(*pendulum4_body, *pendulum4_balls_bodies[i], vec3(-i * 6 - 6, 0, 0), vec3(0, 16, 0));
+	}
+
+	//STAGE 2 - Fifth pendulum
+	pendulum5_primitive.color = Color(1, 1, 1);
+	pendulum5_primitive.radius = 5;
+	pendulum5_primitive.height = 180;
+	pendulum5_primitive.SetPos(PENDULUM5_POSITION, 20, 0);
+	pendulum5_primitive.SetRotation(90, vec3(0, 1, 0));
+	pendulum5_body = App->physics->AddBody(pendulum5_primitive, 0);
+
+	//Accelerator
+	pendulum5_accelerator_primitive.size = ACCELERATOR_SIZE;
+	pendulum5_accelerator_primitive.SetPos(PENDULUM5_POSITION, 35, +50);
+	pendulum5_accelerator_body = App->physics->AddBody(pendulum5_accelerator_primitive, 0);
+	pendulum5_accelerator_body->BodyToSensor(true);
+	pendulum5_accelerator_body->collision_listeners.add(App->scene_intro);
+
+	for (int i = 0; i < BALLS_NUMBER; ++i)
+	{
+		pendulum5_balls_primitives[i].radius = 3;
+		pendulum5_balls_primitives[i].color = Color(1, 1, 0);
+		pendulum5_balls_primitives[i].SetPos(PENDULUM5_POSITION + 10, 30, 6 * i + 6);
+		pendulum5_balls_bodies[i] = App->physics->AddBody(pendulum5_balls_primitives[i], 10000);
+		pendulum5_balls_bodies[i]->collision_listeners.add(App->scene_intro);
+
+		App->physics->AddConstraintP2P(*pendulum5_body, *pendulum5_balls_bodies[i], vec3(-i * 6 - 6, 0, 0), vec3(0, 16, 0));
+	}
+
+	//STAGE 3 - Add Snakes
+
+	for (int i = 0; i < SNAKE_SIZE; i++)
+	{
+		//snake 1
+		snake1_primitives[i].radius = SNAKE_RADIUS;
+		snake1_primitives[i].color = Color(1,0,0);
+		snake1_bodies[i] = App->physics->AddBody(snake1_primitives[i],500);
+		if (i > 0)
+			App->physics->AddConstraintP2P(*snake1_bodies[i], *snake1_bodies[i-1], vec3(0,0,-SNAKE_RADIUS), vec3(0, 0, SNAKE_RADIUS));
+		
+		snake1_bodies[i]->SetPos(STAGE3_POSITION + 30, SNAKE_RADIUS + 10, i*SNAKE_RADIUS +15);
+
+		//snake 2
+		snake2_primitives[i].radius = SNAKE_RADIUS;
+		snake2_primitives[i].color = Color(1, 0, 0);
+		snake2_bodies[i] = App->physics->AddBody(snake2_primitives[i], 500);
+
+		if (i > 0)
+			App->physics->AddConstraintP2P(*snake2_bodies[i], *snake2_bodies[i - 1], vec3(0, 0, -SNAKE_RADIUS), vec3(0, 0, SNAKE_RADIUS));
+
+		snake2_bodies[i]->SetPos(STAGE3_POSITION + 50, SNAKE_RADIUS + 10, i*SNAKE_RADIUS + 25);
+
+		//snake 3
+		snake3_primitives[i].radius = SNAKE_RADIUS;
+		snake3_primitives[i].radius = SNAKE_RADIUS;
+		snake3_primitives[i].color = Color(1, 0, 0);
+		snake3_bodies[i] = App->physics->AddBody(snake3_primitives[i], 500);
+
+		if (i > 0)
+			App->physics->AddConstraintP2P(*snake3_bodies[i], *snake3_bodies[i - 1], vec3(0, 0, -SNAKE_RADIUS), vec3(0, 0, SNAKE_RADIUS));
+
+		snake3_bodies[i]->SetPos(STAGE3_POSITION + 70, SNAKE_RADIUS + 10, i*SNAKE_RADIUS + 15);
+
+		//snake 4
+		snake4_primitives[i].radius = SNAKE_RADIUS;
+		snake4_primitives[i].radius = SNAKE_RADIUS;
+		snake4_primitives[i].color = Color(1, 0, 0);
+		snake4_bodies[i] = App->physics->AddBody(snake4_primitives[i], 500);
+
+		if (i > 0)
+			App->physics->AddConstraintP2P(*snake4_bodies[i], *snake4_bodies[i - 1], vec3(0, 0, -SNAKE_RADIUS), vec3(0, 0, SNAKE_RADIUS));
+
+		snake4_bodies[i]->SetPos(STAGE3_POSITION + 90, SNAKE_RADIUS + 10, i*SNAKE_RADIUS + 25);
+
+		//snake 5
+		snake5_primitives[i].radius = SNAKE_RADIUS;
+		snake5_primitives[i].radius = SNAKE_RADIUS;
+		snake5_primitives[i].color = Color(1, 0, 0);
+		snake5_bodies[i] = App->physics->AddBody(snake5_primitives[i], 500);
+
+		if (i > 0)
+			App->physics->AddConstraintP2P(*snake5_bodies[i], *snake5_bodies[i - 1], vec3(0, 0, -SNAKE_RADIUS), vec3(0, 0, SNAKE_RADIUS));
+
+		snake5_bodies[i]->SetPos(STAGE3_POSITION +110, SNAKE_RADIUS + 10, i*SNAKE_RADIUS + 15);
+
+	}
+
+
 	//Audio
 	App->audio->SetMusicVolume(); 
 	App->audio->SetFxVolume(); 
@@ -169,11 +323,11 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	Player_Timer(timer.Read()); 
 
-	Plane p(0, 1, 0, 0);
-	p.axis = true;
-	p.color = Color(1,1,1);
-	p.Render();
+	back_wall_body->GetTransform(&back_wall_primitive.transform);
+	back_wall_primitive.Render();
 
+	front_wall_body->GetTransform(&front_wall_primitive.transform);
+	front_wall_primitive.Render();
 	//Draw road
 	road.Render();
 
@@ -203,31 +357,49 @@ update_status ModuleSceneIntro::Update(float dt)
 	pendulum1_primitive.Render();
 	pendulum2_primitive.Render();
 	pendulum3_primitive.Render();
+	pendulum4_primitive.Render();
+	pendulum5_primitive.Render();
 
 	for (int i = 0; i < BALLS_NUMBER; ++i)
 	{
+		//pendulum 1
 		pendulum1_balls_bodies[i]->GetTransform(&pendulum1_balls_primitives[i].transform);
 		pendulum1_balls_primitives[i].Render();
-	}
 
-	for (int i = 0; i < BALLS_NUMBER; ++i)
-	{
+		//pendulum 2
 		pendulum2_balls_bodies[i]->GetTransform(&pendulum2_balls_primitives[i].transform);
 		pendulum2_balls_primitives[i].Render();
-	}
 
-	for (int i = 0; i < BALLS_NUMBER; ++i)
-	{
+		//pendulum 3
 		pendulum3_balls_bodies[i]->GetTransform(&pendulum3_balls_primitives[i].transform);
 		pendulum3_balls_primitives[i].Render();
+
+		//pendulum 4
+		pendulum4_balls_bodies[i]->GetTransform(&pendulum4_balls_primitives[i].transform);
+		pendulum4_balls_primitives[i].Render();
+
+		//pendulum 5
+		pendulum5_balls_bodies[i]->GetTransform(&pendulum5_balls_primitives[i].transform);
+		pendulum5_balls_primitives[i].Render();
+	}
+  
+	for (int i = 0; i < SNAKE_SIZE; i++)
+	{
+		snake1_bodies[i]->GetTransform(&snake1_primitives[i].transform);
+		snake2_bodies[i]->GetTransform(&snake2_primitives[i].transform);
+		snake3_bodies[i]->GetTransform(&snake3_primitives[i].transform);
+		snake4_bodies[i]->GetTransform(&snake4_primitives[i].transform);
+		snake5_bodies[i]->GetTransform(&snake5_primitives[i].transform);
+
+		snake1_primitives[i].Render();
+		snake2_primitives[i].Render();
+		snake3_primitives[i].Render();
+		snake4_primitives[i].Render();
+		snake5_primitives[i].Render();
 	}
 
-	//STAGE 2 - Spawn balls
 	
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-		RestartPendulum();
 
-  
 	//Render sensors 
 	if (App->physics->debug)
 	{
@@ -254,6 +426,13 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		}
 	}
 
+	if (body1 == pendulum1_accelerator_body ||
+		body1 == pendulum3_accelerator_body ||
+		body1 == pendulum5_accelerator_body)
+		body2->Push(100000, 100000, 0);
+	else if (body1 == pendulum2_accelerator_body || 
+		body1 == pendulum4_accelerator_body )
+		body2->Push(-100000, 0, 0);
 }
 
 void ModuleSceneIntro::Player_Timer(int milisec)
@@ -296,14 +475,4 @@ void ModuleSceneIntro::Player_Timer(int milisec)
 	}
 
 	App->window->SetTitle(title);
-}
-
-void ModuleSceneIntro::RestartPendulum()
-{
-	for (int i = 0; i < BALLS_NUMBER; ++i)
-	{
-		pendulum1_balls_bodies[i]->SetPos(PENDULUM1_POSITION + 500, 10, 6 * i + 6);
-		pendulum2_balls_bodies[i]->SetPos(PENDULUM2_POSITION + 600, 30, 6 * i + 6);
-		pendulum3_balls_bodies[i]->SetPos(PENDULUM3_POSITION + 70, 80, 6 * i + 6);
-	}
 }
