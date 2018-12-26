@@ -429,10 +429,10 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	if (body1 == pendulum1_accelerator_body ||
 		body1 == pendulum3_accelerator_body ||
 		body1 == pendulum5_accelerator_body)
-		body2->Push(100000, 100000, 0);
+		body2->Push(60000, 60000, 0);
 	else if (body1 == pendulum2_accelerator_body || 
 		body1 == pendulum4_accelerator_body )
-		body2->Push(-100000, 0, 0);
+		body2->Push(-60000, 60000, 0);
 }
 
 void ModuleSceneIntro::Player_Timer(int milisec)
